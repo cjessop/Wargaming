@@ -75,6 +75,10 @@ public:
 		}
 	}
 
+	void passLDSData() {
+		// Need to pass trajectory data and threat type (or guess of threat type)
+	}
+
 private:
 	float time = this->getTime();
 	float detectionThreshold = 10.0;
