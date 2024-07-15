@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string>
 #include "Utils.h"
+#include <algorithm>
+#include "Object.h"
 
 class EWR
 	// This class represents the system controller (operator) for the EWR user player
@@ -128,7 +130,46 @@ public:
 
 	}
 
+
+	Catalogue() {
+		knownObjects.emplace_back("Object 1", std::vector<double>{1.0, 2.0, 3.0});
+	}
+
+	void addObject(const std::string& name, const std::vector<double>& characteristics) {
+		knownObjects.emplace_back(name, characteristics);
+	}
+
+	bool matchObject(const std::vector<double>& ldsData) const {
+		for (const auto& obj : knownObjects) {
+			if (isSimilar(obj.getCharacteristics(), ldsData)) {
+				return true;
+			}
+		}
+	}
+
 private:
+
+	std::vector<Object> knownObjects;
+
+	bool isSimilar(const std::vector<double>& a, const std::vector<double>& b) const {
+		// Perform a simple check to see if the two evaluated objects are "similar". How is similar defined??
+		if (a.size() != b.size()) return false;
+		for (size_t i = 0; i < a.size(); i++) {
+			if (std::abs(a[i] - b[i]) > 0.1) return false;
+		}
+		return true;
+	}
+
+	std::string characteristicsToString(const std::vector<double>& characteristics) const {
+		std::string result = "[";
+		for (size_t i = 0; i < characteristics.size(); i++) {
+			if (i > 0) result += ", ";
+			result += std::to_string(characteristics[i]);
+		}
+
+		result += "]";
+		return result;
+	}
 
 };
 
@@ -163,5 +204,23 @@ Detection::Detection()
 }
 
 Detection::~Detection()
+{
+}
+
+class EWRSystem
+{
+public:
+	EWRSystem();
+	~EWRSystem();
+
+private:
+
+};
+
+EWRSystem::EWRSystem()
+{
+}
+
+EWRSystem::~EWRSystem()
 {
 }
