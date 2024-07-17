@@ -5,26 +5,16 @@
 class Object
 {
 public:
-	Object();
-	~Object();
+    Object() {}  // Default constructor
+    ~Object() {}
 
-
-    Object(std::string name, std::vector<double> characteristics)
-        : name(name), psoVel(posVel) {}
+    // Main constructor
+    Object(std::string name, std::vector<double> posVel) {}
 
     std::string getName() const { return name; }
     const std::vector<double>& getposVel() const { return posVel; }
 
 private:
-
     std::string name;
     std::vector<double> posVel;
 };
-
-Object::Object()
-{
-}
-
-Object::~Object()
-{
-}
