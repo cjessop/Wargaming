@@ -1,0 +1,21 @@
+Menu Controls
+
+up & down arrow keys alter scenario selection, Enter/Return key confirms selection and starts the game.
+
+
+In Game Controls
+
+Time:
+	1 : realtime
+	2 : 2x speed
+	3 : 5x speed
+	4 : 10x speed
+	0 : half speed
+	Space : pause
+
+Change rocket stat tracker:
+
+left and right arrow keys cycle through the rockets
+
+radar range circles:
+# key toggles the drawing of radar range.
