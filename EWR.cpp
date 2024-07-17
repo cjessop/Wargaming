@@ -5,6 +5,7 @@
 #include "Utils.h"
 #include <algorithm>
 #include "Object.h"
+#include "LDS_op.h"
 
 class EWR
 	// This class represents the system controller (operator) for the EWR user player
@@ -25,7 +26,8 @@ public:
 		// more here
 	}
 
-
+	Detection detectionHandler = Detection::Detection();
+	Catalogue objectCatalogue = Catalogue::Catalogue();
 
 private:
 
