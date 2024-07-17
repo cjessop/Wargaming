@@ -133,15 +133,17 @@ public:
 
 	Catalogue() {
 		knownObjects.emplace_back("Object 1", std::vector<double>{1.0, 2.0, 3.0});
+		knownObjects.emplace_back("Object 1", std::vector<double>{4.0, 7.0, 9.0});
 	}
 
-	void addObject(const std::string& name, const std::vector<double>& characteristics) {
-		knownObjects.emplace_back(name, characteristics);
+	void addObject(const std::string& name, const std::vector<double>& posVel) {
+		knownObjects.emplace_back(name, posVel);
 	}
 
+	// Create a function to perform an object match test, using the isSimilar function
 	bool matchObject(const std::vector<double>& ldsData) const {
 		for (const auto& obj : knownObjects) {
-			if (isSimilar(obj.getCharacteristics(), ldsData)) {
+			if (isSimilar(obj.getposVel(), ldsData)) {
 				return true;
 			}
 		}
@@ -160,11 +162,11 @@ private:
 		return true;
 	}
 
-	std::string characteristicsToString(const std::vector<double>& characteristics) const {
+	std::string posVelToString(const std::vector<double>& posVel) const {
 		std::string result = "[";
-		for (size_t i = 0; i < characteristics.size(); i++) {
+		for (size_t i = 0; i < posVel.size(); i++) {
 			if (i > 0) result += ", ";
-			result += std::to_string(characteristics[i]);
+			result += std::to_string(posVel[i]);
 		}
 
 		result += "]";
