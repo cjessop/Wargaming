@@ -66,6 +66,9 @@ private:
 
 };
 
+Catalogue::Catalogue() {};
+Catalogue::~Catalogue() {};
+
 
 
 class Detection
@@ -84,6 +87,11 @@ public:
 
 private:
 
+};
+
+Detection::Detection() {
+};
+Detection::~Detection() {
 };
 
 
@@ -124,9 +132,6 @@ public:
 	void processOffNavData(const std::vector<double>& offNavData) {
 		// more here
 	}
-
-	Detection detectionHandler;
-	Catalogue objectCatalogue;
 
 private:
 

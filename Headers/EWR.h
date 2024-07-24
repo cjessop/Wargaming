@@ -24,14 +24,6 @@ private:
 
 };
 
-Catalogue::Catalogue()
-{
-}
-
-Catalogue::~Catalogue()
-{
-}
-
 class Detection
 {
 public:
@@ -45,13 +37,6 @@ private:
 
 };
 
-Detection::Detection()
-{
-}
-
-Detection::~Detection()
-{
-}
 
 class EWR
 {
@@ -79,11 +64,3 @@ private:
 	void passDataToTrajectory(double altitude, double velocity, double range) {};
 
 };
-
-EWR::EWR()
-{
-}
-
-EWR::~EWR()
-{
-}

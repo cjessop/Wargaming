@@ -19,10 +19,3 @@ private:
     std::vector<double> posVel;
 };
 
-Object::Object()
-{
-}
-
-Object::~Object()
-{
-}
