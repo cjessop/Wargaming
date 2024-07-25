@@ -1,4 +1,4 @@
-#include <QApplication>
+/*#include <QApplication>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -25,3 +25,4 @@ int main(int argc, char* argv[])
 
     return app.exec();
 }
+*/

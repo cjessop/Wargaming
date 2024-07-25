@@ -1,4 +1,5 @@
 #include <fstream>
+#include <stdexcep>
 #include <iostream>
 #include <string>
 #include <chrono>
@@ -8,13 +9,19 @@
 #include <math.h>
 #include <random>
 
-float readTime(std::string trajFile) {
+/* Read the total time of the scenario in real seconds - eventually replace with what will 
+provided by Python side of the controller */
+float readTime(const std::string& trajFile) {
 	std::ifstream InputFile(trajFile);
 
-	if (!InputFile.is_open()) {
-		std::cerr << "Error opening trajectory file" << std::endl;
-		exit;
-	}
+	try:
+		if (!InputFile.is_open()) {
+			std::cerr << "Error reading the trajectory file" << std::endl;
+			throw std::invalid_argument("Recieved an incorrect input file");
+		}
+	catch(exception& ex) {
+		std::cout << "Exception occured" std::endl;
+	};
 
 	std::string line;
 
@@ -27,6 +34,41 @@ float readTime(std::string trajFile) {
 	float tote_time = std::stof(line);
 
 	return tote_time;
+}
+
+std::string readRadar(const std::string& radFile) {
+	// Declare member variables for the readRadar method
+	std::ifstream InputFile(radFile);
+	std::vector<std::string> objectNames;
+	std::string read_line, temp;
+	std::string RadarType;
+	std::vector<std::string> wordVec;
+
+	try:
+		if (!InputFile.is_open()) {
+			std::cerr << "Error opening the radar definition file" << std::endl;
+			throw std::invalid_argument("Recieved an incorrect input file");
+		}
+	catch(exception& ex) {
+		std::cout << "Exception occured" std::endl;
+	};
+
+	while (std::getline(InputFile, line)) {
+		read_line = line;
+		switch (line)
+		{
+		case (line.find("EWR") == std::string::npos):
+			std::cout << "EWR radar detected at: " << std::endl;
+			break;
+		case (line.find("FCR") == std::string::npos):
+			std::cout << "FCR radar detected at: " << std::endl;
+			break;
+		default:
+			break;
+		}
+	}
+
+
 }
 
 float countdown(float& seconds) {

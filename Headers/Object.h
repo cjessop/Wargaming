@@ -8,7 +8,7 @@ class Object
 {
 public:
 	Object() {}
-	~Object();
+	~Object() {}
 
 	Object(std::string name, std::vector<double> posVel) {}
 

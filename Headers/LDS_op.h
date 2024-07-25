@@ -15,6 +15,7 @@ public:
 	LDS(); // Constructor
 	~LDS(); // Destructor
 
+	std::vector<double> latlon;
 	std::vector<Object> objectCatalogue;
 	Object detectedObj;
 
@@ -22,6 +23,7 @@ public:
 	float getTime();
 	void verifyTime();
 	void evaluate_progress(float current_time);
+	bool fail_noFail();
 	bool handleDetection(float lat, float lon);
 	std::vector<Object> generateCatalogueLDS();
 	bool matchKnownObjects(Object& detectedObject, const std::vector<Object>& objectCat);

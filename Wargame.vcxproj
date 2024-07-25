@@ -127,16 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EWR.cpp" />
-    <ClCompile Include="LDS_op.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="UI.cpp" />
-    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Source\Controller.cpp" />
+    <ClCompile Include="Source\EWR.cpp" />
+    <ClCompile Include="Source\LDS_op.cpp" />
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Object.cpp" />
+    <ClCompile Include="Source\UI.cpp" />
+    <ClCompile Include="Source\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Headers\EWR.h" />
+    <ClInclude Include="Headers\LDS_op.h" />
+    <ClInclude Include="Headers\Object.h" />
+    <ClInclude Include="Headers\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

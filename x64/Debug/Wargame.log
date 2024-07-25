@@ -1,0 +1,9 @@
+﻿  Object.cpp
+E:\Wargaming\Wargaming-master\Source\Object.cpp(22,9): error C2084: function 'Object::Object(void)' already has a body
+  E:\Wargaming\Wargaming-master\Source\Object.cpp(8,5):
+  see previous definition of '{ctor}'
+  
+E:\Wargaming\Wargaming-master\Source\Object.cpp(26,10): error C2084: function 'Object::~Object(void)' already has a body
+  E:\Wargaming\Wargaming-master\Source\Object.cpp(9,6):
+  see previous definition of '{dtor}'
+  
