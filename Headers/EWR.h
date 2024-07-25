@@ -19,6 +19,7 @@ public:
 
 private:
 	std::vector<Object> knownObjects;
+	std::vector<std::string> lds_data;
 	bool isSimilar(const std::vector<double>& a, const std::vector<double>& b) const {};
 	std::string posVeltoString(const std::vector<double>& posVel) const {};
 

@@ -9,46 +9,33 @@
 #include "../Headers/EWR.h"
 #include "../Headers/Controller.h"
 
+Controller::Controller() {
 
-class Controller
-{
-public:
-	Controller();
-	~Controller();
+}
 
-	float control_total_time = readTime("Trajec.txt");
-	float control_seconds = control_total_time;
+Controller::~Controller() {
+
+}
 
 
-	void run() {
-		LDS LDS_op;
-		EWR EWR_op;
+void Controller::run(std::string trajector_file) {
 
-		while (control_seconds > 0) {
-			control_seconds = countdown(control_seconds);
-			float progress = check_progress(control_seconds);
-			std::cout << progress;
-			if (progress < 0.2) {
-				continue;
-			}
-			else if (progress >= 0.2) {
-				LDS_op.setTime(control_seconds);
-				float Lds_time = LDS_op.getTime();
-				std::cout << Lds_time;
-			}
+	float control_total_time = readTime(trajector_file);
+
+	LDS LDS_op;
+	EWR EWR_op;
+
+	while (control_seconds > 0) {
+		control_seconds = countdown(control_seconds);
+		float progress = check_progress(control_seconds);
+		std::cout << progress;
+		if (progress < 0.2) {
+			continue;
+		}
+		else if (progress >= 0.2) {
+			LDS_op.setTime(control_seconds);
+			float Lds_time = LDS_op.getTime();
+			std::cout << Lds_time;
 		}
 	}
-
-
-private:
-
-};
-
-Controller::Controller()
-{
 }
-
-Controller::~Controller()
-{
-}
-

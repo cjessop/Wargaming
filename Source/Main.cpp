@@ -1,5 +1,7 @@
 #include "../Headers/Utils.h"
 #include "../Headers/Controller.h"
+#include "../Headers/LDS_op.h"
+#include "../Headers/Object.h"
 #include <vector>
 
 Controller control;
