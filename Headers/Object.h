@@ -7,13 +7,13 @@
 class Object
 {
 public:
-	Object() {}
-	~Object() {}
+	Object();
+	~Object();
 
-	Object(std::string name, std::vector<double> posVel) {}
+	Object(std::string name, std::vector<double> posVel);
 
-	std::string getName() const { return name; }
-	const std::vector<double>& getposVel() const { return posVel; }
+	std::string getName() const;
+	const std::vector<double>& getposVel() const;
 
 
 	std::string name;

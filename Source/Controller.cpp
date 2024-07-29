@@ -1,13 +1,12 @@
 #include <iostream>
 #include <math.h>
-#include <vector>
 #include <stdio.h>
-#include "../Headers/Utils.h"
 #include <random>
-#include "../Headers/Object.h"
-#include "../Headers/LDS_op.h"
-#include "../Headers/EWR.h"
-#include "../Headers/Controller.h"
+#include "Utils.h"
+#include "Object.h"
+#include "LDS_op.h"
+#include "EWR.h"
+#include "Controller.h"
 
 Controller::Controller() {
 
@@ -18,9 +17,9 @@ Controller::~Controller() {
 }
 
 
-void Controller::run(std::string trajector_file) {
+void Controller::run(std::string trajectory_file) {
 
-	float control_total_time = readTime(trajector_file);
+	float control_total_time = readTime(trajectory_file);
 
 	LDS LDS_op;
 	EWR EWR_op;

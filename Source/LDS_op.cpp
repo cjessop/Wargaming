@@ -3,9 +3,9 @@
 #include <vector>
 #include <stdio.h>
 #include <random>
-#include "../Headers/Utils.h"
-#include "../Headers/Object.h"
-#include "../Headers/LDS_op.h"
+#include "Utils.h"
+#include "Object.h"
+#include "LDS_op.h"
 
 LDS::LDS() {
 
@@ -28,19 +28,19 @@ void LDS::verifyTime() {
 	float currentTime = this->getTime();
 }
 
+std::vector<Object> LDS::createCatalogue() {
+	std::vector<Object> objectCatalogue = this->generateCatalogueLDS();
+	return objectCatalogue;
+}
+
 // Create function to evaluate the progress of the 
 void LDS::evaluate_progress(float current_time) { 
 	float progress = check_progress(current_time);
 	if (progress <= detectionThreshold) {
 		std::vector<float> ll = get_ll("lla.txt");
-		handleDetection(ll[0], ll[1]);
+		//handleDetection(ll[0], ll[1], );
 	}
 }
-
-
-std::vector<double> latlon = get_ll();
-std::vector<Object> objectCatalogue = this->generateCatalogueLDS();
-Object detectedObj = Object::Object("Object 1", { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 });
 
 bool LDS::fail_noFail() {
 	float rand_probability = generate_random_number(0.0, 1.0); // Initially use a randomly generated value as a placeholder
@@ -55,7 +55,7 @@ bool LDS::fail_noFail() {
 	}
 }
 
-bool LDS::handleDetection(float lat, float lon) {
+bool LDS::handleDetection(float lat, float lon, Object& detectedObject) {
 	float proba_detec = 0.5; // Probability of making a detection using LDS
 	std::cout << "Object detected at Lat Lon: " << lat << ", " << lon << std::endl;
 	bool m_lds_fail = fail_noFail();
@@ -133,25 +133,29 @@ std::string LDS::LDSDataToString(bool bool_result) {
 	return result;
 }
 
-std::vector<std::string> LDS::passLDSData() {
+std::vector<std::string> LDS::passLDSData(Object& detectedObject) {
 	// Need to pass trajectory data and threat type (or guess of threat type)
 	std::vector<std::string> ldsData;
-	bool detectionResult = handleDetection(detectedObj.getposVel()[0], detectedObj.getposVel()[1]);
+	bool detectionResult = handleDetection(detectedObj.getposVel()[0], detectedObj.getposVel()[1], detectedObject);
 	std::string lDS_Data_result = this->LDSDataToString(detectionResult);
 
 	ldsData.push_back(lDS_Data_result);
 
-	ldsData.push_back("Trajectory: " + std::to_string(detectedObj.getposVel()[0]) + "," + std::to_string(detectedObj.getposVel()[1]));
+	ldsData.push_back("Trajectory: " + std::to_string(detectedObj.getposVel()[0]) + "," + std::to_string(detectedObject.getposVel()[1]));
 	ldsData.push_back(std::string("Threat Type: ") + (detectionResult == true ? "Known" : "Unknown"));
 
 	return ldsData;
 }
 
 
-float time = this->getTime();
 float detectionThreshold = 10.0;
 bool LDS_fail = false; // Hide the current status of LDS operation, never show to the operator - they will never know if the thing is broken or not
 
 std::vector<Object> knownObjs;
+
+
+
+std::vector<float> latlon = get_ll("lla.txt");
+Object detectedObject1 = Object::Object("Object 1", { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 });
 
 

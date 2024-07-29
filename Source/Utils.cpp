@@ -1,5 +1,5 @@
 #include <fstream>
-#include <stdexcep>
+//#include <stdexcep>
 #include <iostream>
 #include <string>
 #include <chrono>
@@ -8,19 +8,21 @@
 #include <vector>
 #include <math.h>
 #include <random>
+#include "Utils.h"
 
 /* Read the total time of the scenario in real seconds - eventually replace with what will 
 provided by Python side of the controller */
 float readTime(const std::string& trajFile) {
 	std::ifstream InputFile(trajFile);
 
-	try:
+	try {
 		if (!InputFile.is_open()) {
 			std::cerr << "Error reading the trajectory file" << std::endl;
 			throw std::invalid_argument("Recieved an incorrect input file");
 		}
-	catch(exception& ex) {
-		std::cout << "Exception occured" std::endl;
+	}
+	catch( ... ) {
+		std::cout << "Exception occured" << std::endl;
 	};
 
 	std::string line;
@@ -44,23 +46,30 @@ std::string readRadar(const std::string& radFile) {
 	std::string RadarType;
 	std::vector<std::string> wordVec;
 
-	try:
+	try {
 		if (!InputFile.is_open()) {
 			std::cerr << "Error opening the radar definition file" << std::endl;
 			throw std::invalid_argument("Recieved an incorrect input file");
 		}
-	catch(exception& ex) {
-		std::cout << "Exception occured" std::endl;
+	}
+	catch( ... ) {
+		std::cout << "Exception occured" << std::endl;
 	};
 
-	while (std::getline(InputFile, line)) {
-		read_line = line;
-		switch (line)
+	while (std::getline(InputFile, read_line)) {
+		int switch_val;
+
+		if (read_line.find("EWR") == std::string::npos) {
+			switch_val = 1;
+		}
+
+
+		switch (switch_val)
 		{
-		case (line.find("EWR") == std::string::npos):
+		case (1):
 			std::cout << "EWR radar detected at: " << std::endl;
 			break;
-		case (line.find("FCR") == std::string::npos):
+		case (2):
 			std::cout << "FCR radar detected at: " << std::endl;
 			break;
 		default:

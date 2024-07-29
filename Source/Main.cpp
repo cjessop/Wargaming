@@ -1,8 +1,7 @@
-#include "../Headers/Utils.h"
-#include "../Headers/Controller.h"
-#include "../Headers/LDS_op.h"
-#include "../Headers/Object.h"
-#include <vector>
+#include "Utils.h"
+#include "Controller.h"
+#include "LDS_op.h"
+#include "Object.h"
 
 Controller control;
 
@@ -16,7 +15,7 @@ int main() {
 		//seconds = countdown(seconds);
 		//float progress = check_progress(seconds);
 		
-		control.run();
+		control.run("lla.txt");
 
 	}
 

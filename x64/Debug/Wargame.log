@@ -1,9 +1,48 @@
-﻿  Object.cpp
-E:\Wargaming\Wargaming-master\Source\Object.cpp(22,9): error C2084: function 'Object::Object(void)' already has a body
-  E:\Wargaming\Wargaming-master\Source\Object.cpp(8,5):
-  see previous definition of '{ctor}'
-  
-E:\Wargaming\Wargaming-master\Source\Object.cpp(26,10): error C2084: function 'Object::~Object(void)' already has a body
-  E:\Wargaming\Wargaming-master\Source\Object.cpp(9,6):
-  see previous definition of '{dtor}'
-  
+﻿  Controller.cpp
+  EWR.cpp
+E:\Wargaming-1\Source\EWR.cpp(64,53): warning C4244: 'argument': conversion from 'const _Ty' to 'float', possible loss of data
+E:\Wargaming-1\Source\EWR.cpp(64,53): warning C4244:         with
+E:\Wargaming-1\Source\EWR.cpp(64,53): warning C4244:         [
+E:\Wargaming-1\Source\EWR.cpp(64,53): warning C4244:             _Ty=double
+E:\Wargaming-1\Source\EWR.cpp(64,53): warning C4244:         ]
+E:\Wargaming-1\Source\EWR.cpp(64,41): warning C4244: 'argument': conversion from 'const _Ty' to 'float', possible loss of data
+E:\Wargaming-1\Source\EWR.cpp(64,41): warning C4244:         with
+E:\Wargaming-1\Source\EWR.cpp(64,41): warning C4244:         [
+E:\Wargaming-1\Source\EWR.cpp(64,41): warning C4244:             _Ty=double
+E:\Wargaming-1\Source\EWR.cpp(64,41): warning C4244:         ]
+E:\Wargaming-1\Source\EWR.cpp(68,53): warning C4244: 'argument': conversion from 'const _Ty' to 'float', possible loss of data
+E:\Wargaming-1\Source\EWR.cpp(68,53): warning C4244:         with
+E:\Wargaming-1\Source\EWR.cpp(68,53): warning C4244:         [
+E:\Wargaming-1\Source\EWR.cpp(68,53): warning C4244:             _Ty=double
+E:\Wargaming-1\Source\EWR.cpp(68,53): warning C4244:         ]
+E:\Wargaming-1\Source\EWR.cpp(68,41): warning C4244: 'argument': conversion from 'const _Ty' to 'float', possible loss of data
+E:\Wargaming-1\Source\EWR.cpp(68,41): warning C4244:         with
+E:\Wargaming-1\Source\EWR.cpp(68,41): warning C4244:         [
+E:\Wargaming-1\Source\EWR.cpp(68,41): warning C4244:             _Ty=double
+E:\Wargaming-1\Source\EWR.cpp(68,41): warning C4244:         ]
+  LDS_op.cpp
+E:\Wargaming-1\Source\LDS_op.cpp(46,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\Wargaming-1\Source\LDS_op.cpp(139,94): warning C4244: 'argument': conversion from 'const _Ty' to 'float', possible loss of data
+E:\Wargaming-1\Source\LDS_op.cpp(139,94): warning C4244:         with
+E:\Wargaming-1\Source\LDS_op.cpp(139,94): warning C4244:         [
+E:\Wargaming-1\Source\LDS_op.cpp(139,94): warning C4244:             _Ty=double
+E:\Wargaming-1\Source\LDS_op.cpp(139,94): warning C4244:         ]
+E:\Wargaming-1\Source\LDS_op.cpp(139,66): warning C4244: 'argument': conversion from 'const _Ty' to 'float', possible loss of data
+E:\Wargaming-1\Source\LDS_op.cpp(139,66): warning C4244:         with
+E:\Wargaming-1\Source\LDS_op.cpp(139,66): warning C4244:         [
+E:\Wargaming-1\Source\LDS_op.cpp(139,66): warning C4244:             _Ty=double
+E:\Wargaming-1\Source\LDS_op.cpp(139,66): warning C4244:         ]
+  Main.cpp
+  Object.cpp
+  UI.cpp
+  Utils.cpp
+E:\Wargaming-1\Source\Utils.cpp(103,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\Wargaming-1\Source\Utils.cpp(118,3): warning C4551: function call missing argument list
+  Generating Code...
+E:\Wargaming-1\Source\Utils.cpp(81): warning C4715: 'readRadar': not all control paths return a value
+E:\Wargaming-1\Source\LDS_op.cpp(56): warning C4715: 'LDS::fail_noFail': not all control paths return a value
+E:\Wargaming-1\Source\LDS_op.cpp(81): warning C4715: 'LDS::handleDetection': not all control paths return a value
+E:\Wargaming-1\Source\LDS_op.cpp(113): warning C4715: 'LDS::matchKnownObjects': not all control paths return a value
+E:\Wargaming-1\Source\EWR.cpp(99): warning C4715: 'EWR::processLDSdata': not all control paths return a value
+E:\Wargaming-1\Source\EWR.cpp(143): warning C4715: 'EWR::matchObject': not all control paths return a value
+  Wargame.vcxproj -> E:\Wargaming-1\x64\Debug\Wargame.exe

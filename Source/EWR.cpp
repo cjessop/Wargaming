@@ -3,9 +3,11 @@
 #include <stdlib.h>
 #include <string>
 #include <algorithm>
-#include "../Headers/Utils.h"
-#include "../Headers/EWR.h"
-#include "../Headers/LDS_op.h"
+#include "Utils.h"
+#include "EWR.h"
+#include "LDS_op.h"
+
+LDS LDS_op;
 
 // Default contructor for the Catalogue class
 Catalogue::Catalogue() {
@@ -36,15 +38,6 @@ void Catalogue::addObject(const std::string& name, const std::vector<double>& po
 	knownObjects.emplace_back(name, posVel);
 }
 
-// Create a function to perform an object match test, using the isSimilar function
-bool Catalogue::matchObject(const std::vector<double>& ldsData) const {
-	for (const auto& obj : knownObjects) {
-		if (isSimilar(obj.getposVel(), ldsData)) {
-			return true;
-		}
-	}
-}
-
 
 Detection::Detection() {
 };
@@ -55,16 +48,7 @@ Detection::~Detection() {
 
 std::vector<Object> knownObjects;
 
-bool Detection::isSimilar(const std::vector<double>& a, const std::vector<double>& b) const {
-	// Perform a simple check to see if the two evaluated objects are "similar". How is similar defined??
-	if (a.size() != b.size()) return false;
-	for (size_t i = 0; i < a.size(); i++) {
-		if (std::abs(a[i] - b[i]) > 0.1) return false;
-	}
-	return true;
-}
-
-std::string Detection::posVelToString(const std::vector<double>& posVel) const {
+std::string Detection::posVelToString(const std::vector<double>& posVel) {
 	std::string result = "[";
 	for (size_t i = 0; i < posVel.size(); i++) {
 		if (i > 0) result += ", ";
@@ -95,12 +79,14 @@ EWR::~EWR()
 
  }
 
-std::vector<std::string> lds_data = LDS::passLDSData();
+Object DetectedObjectFromLDS = LDS_op.detectedObj;
+std::vector<std::string> lds_data = LDS_op.passLDSData(DetectedObjectFromLDS);
 
-std::vector<std:: EWR::processLDSdata(const std::vector<double>& ldsData) {
+std::string EWR::processLDSdata(std::vector<std::string>& ldsData) {
 	// Call function from LDS_op class to check for fail case of the system
-	bool ldsfail_nofail = LDS::fail_noFail();
-	std::string s_fail, s_true = "fail", "true";
+	bool ldsfail_nofail = LDS_op.fail_noFail();
+	std::string s_fail = "fail";
+	std::string s_true = "true";
 
 	if (ldsfail_nofail == false) {
 		for (int i = 0; i < ldsData.size(); i++) {
@@ -138,8 +124,25 @@ void EWR::handleDetection(const std::vector<double>& ldsData, Catalogue& catalog
 	}
 }
 
+/*Perform a simple check to see if the two evaluated objects are "similar". How is similar defined??*/
+bool EWR::isSimilar(const std::vector<double>& a, const std::vector<double>& b) {
+	if (a.size() != b.size()) return false;
+	for (size_t i = 0; i < a.size(); i++) {
+		if (std::abs(a[i] - b[i]) > 0.1) return false;
+	}
+	return true;
+}
 
-void EWR::processMatchedObj(const std::vector<double>& ldsData, const Catalogue& catalogue) {
+// Create a function to perform an object match test, using the isSimilar function
+bool EWR::matchObject(const std::vector<double>& ldsData) {
+	for (const auto& obj : knownObjects) {
+		if (isSimilar(obj.getposVel(), ldsData)) {
+			return true;
+		}
+	}
+}
+
+void EWR::processMatchedObj(const std::vector<double>& ldsData, Catalogue& catalogue) {
 	std::string objData = catalogue.getObjData(ldsData);
 	double proba = calculateProba(objData);
 	double altitude, velocity, range;

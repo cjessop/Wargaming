@@ -22,13 +22,14 @@ public:
 	void setTime(float t);
 	float getTime();
 	void verifyTime();
+	std::vector<Object> createCatalogue();
 	void evaluate_progress(float current_time);
 	bool fail_noFail();
-	bool handleDetection(float lat, float lon);
+	bool handleDetection(float lat, float lon, Object& detectedObject);
 	std::vector<Object> generateCatalogueLDS();
 	bool matchKnownObjects(Object& detectedObject, const std::vector<Object>& objectCat);
 	std::string LDSDataToString(bool bool_result);
-	std::vector<std::string> passLDSData();
+	std::vector<std::string> passLDSData(Object& detectedObject);
 
 private:
 	float time;

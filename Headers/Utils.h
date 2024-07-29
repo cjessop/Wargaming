@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-float readTime(std::string trajFile);
+float readTime(const std::string& trajFile);
 
 float countdown(float& seconds);
 
