@@ -12,10 +12,11 @@ public:
 	Catalogue();
 	~Catalogue();
 
-	bool matchObj(const std::vector<double>& ldsData);
+	bool matchObj(Object& detectedObject, const std::vector<Object>& objectCat);
 	std::string getObjData(const std::vector<double>& ldsData) const;
 	void addObject(const std::string& name, const std::vector<double>& posVel);
 	bool matchObject(const std::vector<double>& ldsData);
+	std::vector<Object> Catalogue::GenerateCatalogueEWR();
 
 private:
 	std::vector<Object> knownObjects;
@@ -37,7 +38,6 @@ private:
 
 };
 
-
 class EWR
 {
 public:
@@ -47,7 +47,7 @@ public:
 	void processExternalObs(const std::vector<double>& obs);
 	void processOffNavData(const std::vector<double>& offNavData);
 	void handleDetection(const std::vector<double>& ldsData, Catalogue& catalogue, Detection& detection);
-	bool isSimilar(const std::vector<double>& a, const std::vector<double>& b);
+	bool isSimilar(Object& detectedObject, const std::vector<Object>& objectCat);
 	bool matchObject(const std::vector<double>& ldsData);
 	void processMatchedObj(const std::vector<double>& ldsData, Catalogue& catalogue);
 	void processUnmatchedObj(const std::vector<double>& ldsData, double fence, double volume);

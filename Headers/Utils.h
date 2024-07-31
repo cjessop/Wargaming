@@ -6,10 +6,11 @@
 
 float readTime(const std::string& trajFile);
 
+std::string readRadar(const std::string& radFile);
 float countdown(float& seconds);
-
 float check_progress(float current_time);
-
 std::vector<float> get_ll(std::string lla_file);
-
+std::vector<std::string> readCatalogue(const std::string& catalogueFile);
 double generate_random_number(float num1, float num2);
+
+

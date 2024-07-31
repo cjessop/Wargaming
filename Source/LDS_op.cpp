@@ -33,6 +33,26 @@ std::vector<Object> LDS::createCatalogue() {
 	return objectCatalogue;
 }
 
+/* Create a catalogue from an input catalogue file. First create a vector of strings for each of the objects
+within the */
+std::vector<Object> LDS::createCatalogueFromFile(const std::string& catalogueFile) {
+	// read in the catalogue file
+	std::vector<std::string> s_object_vector = readCatalogue(catalogueFile); 
+	std::vector<Object> catalogue;
+
+	for (int i = 0; i < s_object_vector.size(); i++) {
+		for (int j = 0; j < s_object_vector[i].size(); j++) {
+			// This probably will not work BUT I CAN'T TEST IT
+			try {
+				double d_object_value = std::stod(s_object_vector[i])
+			}
+			catch( ... ) {
+				std::cout << "Cannot convert string to double" << std::endl;
+			};
+		}
+	}
+}
+
 // Create function to evaluate the progress of the 
 void LDS::evaluate_progress(float current_time) { 
 	float progress = check_progress(current_time);
@@ -152,8 +172,6 @@ float detectionThreshold = 10.0;
 bool LDS_fail = false; // Hide the current status of LDS operation, never show to the operator - they will never know if the thing is broken or not
 
 std::vector<Object> knownObjs;
-
-
 
 std::vector<float> latlon = get_ll("lla.txt");
 Object detectedObject1 = Object::Object("Object 1", { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 });

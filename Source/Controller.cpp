@@ -7,6 +7,7 @@
 #include "LDS_op.h"
 #include "EWR.h"
 #include "Controller.h"
+#include "Discriminator.h"
 
 Controller::Controller() {
 
@@ -23,6 +24,7 @@ void Controller::run(std::string trajectory_file) {
 
 	LDS LDS_op;
 	EWR EWR_op;
+	Discriminator discrim_controller;
 
 	while (control_seconds > 0) {
 		control_seconds = countdown(control_seconds);
@@ -38,3 +40,4 @@ void Controller::run(std::string trajectory_file) {
 		}
 	}
 }
+

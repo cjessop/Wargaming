@@ -28,6 +28,7 @@ public:
 	bool handleDetection(float lat, float lon, Object& detectedObject);
 	std::vector<Object> generateCatalogueLDS();
 	bool matchKnownObjects(Object& detectedObject, const std::vector<Object>& objectCat);
+	std::vector<Object> LDS::createCatalogueFromFile(const std::string& catalogueFile);
 	std::string LDSDataToString(bool bool_result);
 	std::vector<std::string> passLDSData(Object& detectedObject);
 

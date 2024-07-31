@@ -62,15 +62,31 @@ std::string readRadar(const std::string& radFile) {
 		if (read_line.find("EWR") == std::string::npos) {
 			switch_val = 1;
 		}
+		else if (read_line.find("FCR") == std::string::npos) {
+			switch_val = 2;
+		}
+		else if (read_line.find("ABM") == std::string::npos) {
+			switch_val = 3;
+		}
+		else {
+			std::cout << "No radar or ABM site detected in the radar file " << std::endl;
+			switch_val = 0;
+		}
 
-
+		// Switch statement no longer required but I want to keep it in
 		switch (switch_val)
 		{
+		case (0):
+			std::cout << "No radar detected " << std::endl;
+			break;
 		case (1):
 			std::cout << "EWR radar detected at: " << std::endl;
 			break;
 		case (2):
 			std::cout << "FCR radar detected at: " << std::endl;
+			break;
+		case (3):
+			std::cout << "ABM site detected at: " << std::endl;
 			break;
 		default:
 			break;
@@ -119,9 +135,7 @@ std::vector<float> get_ll(std::string lla_file) {
 	}
 
 	std::string line;
-	std::vector<float> ll_list(2);
-
-	//std::cout << "Total time of flight: " << std::endl;
+	std::vector<float> ll_list;
 
 	while (std::getline(InputFile, line)) {
 		//std::cout << line << std::endl;
@@ -134,6 +148,28 @@ std::vector<float> get_ll(std::string lla_file) {
 	return ll_list;
 }
 
+/* Read objects from the object catalogue text file to populate a vector of objects */
+std::vector<std::string> readCatalogue(const std::string& catalogueFile) {
+	std::ifstream InputFile(catalogueFile);
+
+	if (!InputFile.is_open()) {
+		std::cerr << "Error opening the catalogue file" << std::endl;
+		exit;
+	}
+
+	std::string line;
+	std::vector<std::string> objectList;
+
+	while (std::getline(InputFile, line, ',')) {
+		std::string str_information = std::stof(line);
+		objectList.push_back(str_information);
+
+		std::cout << objectList[0] << objectList[1] << std::endl;
+	}
+
+	return objectList;
+}
+
 
 double generate_random_number(float num1, float num2) {
 	std::random_device rd;
@@ -143,4 +179,14 @@ double generate_random_number(float num1, float num2) {
 	std::uniform_real_distribution<> dis(num1, num2);
 
 	return dis(gen);
+}
+
+/* Generate a random integer within the range of num1 and num2 */
+int generate_random_int(int num1, int num2) {
+	std::random_device rd;
+	std::mt19937 rng(rd());
+	std::uniform_int_distribution<std::mt19937::result_type> dist(num1, num2);
+	
+	//std::cout << dist(rng);
+	return dist(rng);
 }

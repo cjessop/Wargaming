@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "EWR.h"
 #include "LDS_op.h"
+#include "Object.h"
 
 LDS LDS_op;
 
@@ -19,13 +20,23 @@ Catalogue::~Catalogue() {
 
 }
 
-bool Catalogue::matchObj(const std::vector<double>& ldsData) {
+/*Function to perform an independant check on match/no match against its own (EWR) catalogue*/
+bool Catalogue::matchObj(Object& detectedObject, const std::vector<Object>& objectCat) {
 	return true;
 }
 
 std::string Catalogue::getObjData(const std::vector<double>& ldsData) const {
 	return "object data";
 
+}
+
+/*Method to generate the catalogue specific to the EWR operator. Conventionally this would be
+identical to that of the LDS catalogue, or read from a file (future)*/
+std::vector<Object> Catalogue::GenerateCatalogueEWR() {
+	knownObjs.emplace_back("Object 1", std::vector<double>{1.0, 2.0, 3.0});
+	knownObjs.emplace_back("Object 2", std::vector<double>{4.0, 7.0, 9.0});
+
+	return knownObjs;
 }
 
 /*
@@ -125,19 +136,37 @@ void EWR::handleDetection(const std::vector<double>& ldsData, Catalogue& catalog
 }
 
 /*Perform a simple check to see if the two evaluated objects are "similar". How is similar defined??*/
-bool EWR::isSimilar(const std::vector<double>& a, const std::vector<double>& b) {
-	if (a.size() != b.size()) return false;
-	for (size_t i = 0; i < a.size(); i++) {
-		if (std::abs(a[i] - b[i]) > 0.1) return false;
+bool EWR::isSimilar(Object& detectedObject, const std::vector<Object>& objectCat) {
+	bool match = false;
+
+	//for (const auto& obj : objectCat) { // Use reference to object to allow the object itself to be altered
+	for (int i = 0; i < objectCat.size(); i++) {
+		if (detectedObj.getposVel() == objectCat[i].getposVel() || detectedObj.getName() == objectCat[i].getName()) {
+	
+		//if (obj == detectedObject) {
+			std::cout << "Detected signature matches known signature from EWR catalogue and is safe" << std::endl;
+			match = true;
+			return match;
+			// Add additional logic here to deal with the specifics and next steps if objects match
+		}
+		if (!match) {
+			std::cout << "Detected signature does not match that in existing database" << std::endl;
+			std::cout << "Assume detected signature is hostile in nature" << std::endl;
+
+			match = false;
+			return match;
+		}
 	}
-	return true;
 }
 
-// Create a function to perform an object match test, using the isSimilar function
+/*Create a function to perform an object match test, using the isSimilar function */
 bool EWR::matchObject(const std::vector<double>& ldsData) {
 	for (const auto& obj : knownObjects) {
 		if (isSimilar(obj.getposVel(), ldsData)) {
 			return true;
+		}
+		else {
+			return false;
 		}
 	}
 }
@@ -185,9 +214,10 @@ std::string EWR::guessObj(double fence, double volume) {
 }
 
 void EWR::getThreatParams(const std::string& objData, double& altitude, double& velocity, double& range) {
-	altitude = 1000.0f;
-	velocity = 500.0f;
-	range = 10000.0f;
+	// Placeholder values used below. Remove the alt, vel, and pos arguments and take everything from object?
+	altitude = 1000.0;
+	velocity = 500.0;
+	range = 10000.0;
 }
 
 void EWR::passDataToDiscriminator(const std::string& data) {
