@@ -5,24 +5,7 @@
 #include <string>
 #include <algorithm>
 #include "Object.h"
-
-class Catalogue
-{
-public:
-	Catalogue();
-	~Catalogue();
-
-	bool matchObj(Object& detectedObject, const std::vector<Object>& objectCat);
-	std::string getObjData(const std::vector<double>& ldsData) const;
-	void addObject(const std::string& name, const std::vector<double>& posVel);
-	bool matchObject(const std::vector<double>& ldsData);
-	std::vector<Object> Catalogue::GenerateCatalogueEWR();
-
-private:
-	std::vector<Object> knownObjects;
-	std::vector<std::string> lds_data;
-	
-};
+#include "Discriminator.h"
 
 class Detection
 {
@@ -44,12 +27,16 @@ public:
 	EWR();
 	~EWR();
 
+	void addObject(const std::string& name, const std::vector<double>& posVel);
+	std::string getObjData(const std::vector<double>& ldsData) const;
+	std::vector<Object> GenerateCatalogueEWR();
 	void processExternalObs(const std::vector<double>& obs);
 	void processOffNavData(const std::vector<double>& offNavData);
-	void handleDetection(const std::vector<double>& ldsData, Catalogue& catalogue, Detection& detection);
+	bool matchObj(Object& detectedObject, const std::vector<Object>& objectCat);
+	void handleDetection(const std::vector<double>& ldsData, std::vector<Object>& catalogue, Detection& detection);
 	bool isSimilar(Object& detectedObject, const std::vector<Object>& objectCat);
-	bool matchObject(const std::vector<double>& ldsData);
-	void processMatchedObj(const std::vector<double>& ldsData, Catalogue& catalogue);
+	bool matchObject(const std::vector<Object>& objectCat);
+	void processMatchedObj(const std::vector<double>& ldsData);
 	void processUnmatchedObj(const std::vector<double>& ldsData, double fence, double volume);
 	std::string processLDSdata(std::vector<std::string>& ldsData);
 	double calculateProba(const std::string& objData);
@@ -61,9 +48,10 @@ public:
 	void passDataToTrajectory(double altitude, double velocity, double range);
 
 	Detection detectionHandler;
-	Catalogue objectCatalogue;
+	Object DetectedObjectFromLDS;
 
 private:
-	
+	std::vector<Object> knownObjs;
+	std::vector<std::string> lds_data;
 
 };

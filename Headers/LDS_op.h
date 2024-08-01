@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include <random>
 #include "Object.h"
+#include "Discriminator.h"
 
 class LDS
 	/* This is the class that represents all of the methods and attributes that the LDS operator has access to and
@@ -28,7 +29,7 @@ public:
 	bool handleDetection(float lat, float lon, Object& detectedObject);
 	std::vector<Object> generateCatalogueLDS();
 	bool matchKnownObjects(Object& detectedObject, const std::vector<Object>& objectCat);
-	std::vector<Object> LDS::createCatalogueFromFile(const std::string& catalogueFile);
+	std::vector<Object> createCatalogueFromFile(const std::string& catalogueFile);
 	std::string LDSDataToString(bool bool_result);
 	std::vector<std::string> passLDSData(Object& detectedObject);
 

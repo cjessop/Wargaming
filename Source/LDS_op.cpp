@@ -44,7 +44,7 @@ std::vector<Object> LDS::createCatalogueFromFile(const std::string& catalogueFil
 		for (int j = 0; j < s_object_vector[i].size(); j++) {
 			// This probably will not work BUT I CAN'T TEST IT
 			try {
-				double d_object_value = std::stod(s_object_vector[i])
+				double d_object_value = std::stod(s_object_vector[i]);
 			}
 			catch( ... ) {
 				std::cout << "Cannot convert string to double" << std::endl;

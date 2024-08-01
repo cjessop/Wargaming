@@ -11,7 +11,7 @@
 EWR EWR_op;
 LDS LDS_op;
 
-Object ThreatObject = EWR.DetectedObjectFromLDS;
+Object ThreatObject = EWR_op.DetectedObjectFromLDS;
 
 bool Discriminator::ThreatStatusFromEWR() {
     bool b_threat;
@@ -43,7 +43,10 @@ std::vector<std::string> Discriminator::runDiscrim(bool b_threat, Object& object
 
     // de is a placeholder for something else
     // Declare all member variables
-    int threat, non_threat, de, strange = 1, 2, 3, 4;
+    int threat = 1;
+    int non_threat = 2;
+    int de = 3;
+    int strange = 4;
     double proba_discrim_fail = generate_random_number(0.0, 1.0); // Dice rolls are shit but will have to do for now
     double rand_proba_discrim = generate_random_number(0.0, 1.0);
     int rand_int = generate_random_int(1, 4);
@@ -63,7 +66,7 @@ std::vector<std::string> Discriminator::runDiscrim(bool b_threat, Object& object
                     std::cout << "Unidentified object is of type " << std::to_string(threat) << std::endl;
                     std::cout << "Confidence is: " << std::to_string(rand_proba_discrim) << std::endl;
 
-                    return oject.getName() + std::to_string(threat);
+                    return object.getName() + std::to_string(threat);
                 }
                 else if (rand_proba_discrim < 0.4) {
                     // Assign incorrect discriminator label to the object (simulating a failure of the discriminator)
@@ -94,13 +97,15 @@ std::vector<std::string> Discriminator::runDiscrim(bool b_threat, Object& object
             }
         }
         else if (b_threat == false) {
-            std::vector<double> NonThreatPosVel =  object.getposVel()
+            std::vector<double> NonThreatPosVel = object.getposVel();
             // Perform some simple discrimination check
 
         }
     }
 }
 
+Discriminator::Discriminator() {};
 
+Discriminator::~Discriminator() {};
 
 

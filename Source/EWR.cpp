@@ -7,48 +7,9 @@
 #include "EWR.h"
 #include "LDS_op.h"
 #include "Object.h"
+#include "EWR.h"
 
 LDS LDS_op;
-
-// Default contructor for the Catalogue class
-Catalogue::Catalogue() {
-
-}
-
-// Default destructor for the Catalogue class
-Catalogue::~Catalogue() {
-
-}
-
-/*Function to perform an independant check on match/no match against its own (EWR) catalogue*/
-bool Catalogue::matchObj(Object& detectedObject, const std::vector<Object>& objectCat) {
-	return true;
-}
-
-std::string Catalogue::getObjData(const std::vector<double>& ldsData) const {
-	return "object data";
-
-}
-
-/*Method to generate the catalogue specific to the EWR operator. Conventionally this would be
-identical to that of the LDS catalogue, or read from a file (future)*/
-std::vector<Object> Catalogue::GenerateCatalogueEWR() {
-	knownObjs.emplace_back("Object 1", std::vector<double>{1.0, 2.0, 3.0});
-	knownObjs.emplace_back("Object 2", std::vector<double>{4.0, 7.0, 9.0});
-
-	return knownObjs;
-}
-
-/*
-Catalogue() {
-	knownObjects.emplace_back("Object 1", std::vector<double>{1.0, 2.0, 3.0});
-	knownObjects.emplace_back("Object 1", std::vector<double>{4.0, 7.0, 9.0});
-}*/
-
-void Catalogue::addObject(const std::string& name, const std::vector<double>& posVel) {
-	knownObjects.emplace_back(name, posVel);
-}
-
 
 Detection::Detection() {
 };
@@ -93,6 +54,31 @@ EWR::~EWR()
 Object DetectedObjectFromLDS = LDS_op.detectedObj;
 std::vector<std::string> lds_data = LDS_op.passLDSData(DetectedObjectFromLDS);
 
+void EWR::addObject(const std::string& name, const std::vector<double>& posVel) {
+	knownObjects.emplace_back(name, posVel);
+}
+
+std::string EWR::getObjData(const std::vector<double>& ldsData) const {
+	return "object data";
+
+}
+
+/*Method to generate the catalogue specific to the EWR operator. Conventionally this would be
+identical to that of the LDS catalogue, or read from a file (future)*/
+
+std::vector<Object> EWR::GenerateCatalogueEWR() {
+	knownObjs.emplace_back("Object 1", std::vector<double>{1.0, 2.0, 3.0});
+	knownObjs.emplace_back("Object 2", std::vector<double>{4.0, 7.0, 9.0});
+
+	return knownObjs;
+}
+
+/*Function to perform an independant check on match/no match against its own (EWR) catalogue*/
+bool EWR::matchObj(Object& detectedObject, const std::vector<Object>& objectCat) {
+	return true;
+}
+
+
 std::string EWR::processLDSdata(std::vector<std::string>& ldsData) {
 	// Call function from LDS_op class to check for fail case of the system
 	bool ldsfail_nofail = LDS_op.fail_noFail();
@@ -121,8 +107,8 @@ void EWR::processOffNavData(const std::vector<double>& offNavData) {
 
 
 
-void EWR::handleDetection(const std::vector<double>& ldsData, Catalogue& catalogue, Detection& detection) {
-	bool match = catalogue.matchObj(ldsData);
+void EWR::handleDetection(const std::vector<double>& ldsData, std::vector<Object>& catalogue, Detection& detection) {
+	bool match = matchObject(catalogue);
 
 	double fence = detection.getFenceProba(ldsData);
 	double volume = detection.getVolumeProba(ldsData);
@@ -131,7 +117,7 @@ void EWR::handleDetection(const std::vector<double>& ldsData, Catalogue& catalog
 		processUnmatchedObj(ldsData, fence, volume);
 	}
 	else {
-		processMatchedObj(ldsData, catalogue);
+		processMatchedObj(ldsData);
 	}
 }
 
@@ -141,7 +127,7 @@ bool EWR::isSimilar(Object& detectedObject, const std::vector<Object>& objectCat
 
 	//for (const auto& obj : objectCat) { // Use reference to object to allow the object itself to be altered
 	for (int i = 0; i < objectCat.size(); i++) {
-		if (detectedObj.getposVel() == objectCat[i].getposVel() || detectedObj.getName() == objectCat[i].getName()) {
+		if (detectedObject.getposVel() == objectCat[i].getposVel() || detectedObject.getName() == objectCat[i].getName()) {
 	
 		//if (obj == detectedObject) {
 			std::cout << "Detected signature matches known signature from EWR catalogue and is safe" << std::endl;
@@ -159,10 +145,15 @@ bool EWR::isSimilar(Object& detectedObject, const std::vector<Object>& objectCat
 	}
 }
 
+bool EWR::matchObj(Object& detectedObject, const std::vector<Object>& objectCat)
+{
+	return false;
+}
+
 /*Create a function to perform an object match test, using the isSimilar function */
-bool EWR::matchObject(const std::vector<double>& ldsData) {
-	for (const auto& obj : knownObjects) {
-		if (isSimilar(obj.getposVel(), ldsData)) {
+bool EWR::matchObject(const std::vector<Object>& objectCat) {
+	for (Object& obj : knownObjects) {
+		if (isSimilar(obj, objectCat)) {
 			return true;
 		}
 		else {
@@ -171,8 +162,8 @@ bool EWR::matchObject(const std::vector<double>& ldsData) {
 	}
 }
 
-void EWR::processMatchedObj(const std::vector<double>& ldsData, Catalogue& catalogue) {
-	std::string objData = catalogue.getObjData(ldsData);
+void EWR::processMatchedObj(const std::vector<double>& ldsData) {
+	std::string objData = getObjData(ldsData);
 	double proba = calculateProba(objData);
 	double altitude, velocity, range;
 
@@ -231,3 +222,4 @@ void EWR::passDataToDisplay(const std::string& data) {
 void EWR::passDataToTrajectory(double altitude, double velocity, double range) {
 	// Pass data to Trajectory component
 }
+
