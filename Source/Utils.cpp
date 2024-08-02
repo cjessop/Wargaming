@@ -1,6 +1,7 @@
 #include <fstream>
 //#include <stdexcep>
 #include <iostream>
+#include <typeinfo>
 #include <string>
 #include <chrono>
 #include <thread>
@@ -149,7 +150,7 @@ std::vector<float> get_ll(std::string lla_file) {
 }
 
 /* Read objects from the object catalogue text file to populate a vector of objects */
-std::vector<std::string> readCatalogue(const std::string& catalogueFile) {
+std::vector<Object> readCatalogue(const std::string& catalogueFile) {
 	std::ifstream InputFile(catalogueFile);
 
 	if (!InputFile.is_open()) {
@@ -161,8 +162,14 @@ std::vector<std::string> readCatalogue(const std::string& catalogueFile) {
 	std::vector<std::string> objectList;
 
 	while (std::getline(InputFile, line, ',')) {
-		std::string str_information = std::stof(line);
-		objectList.push_back(str_information);
+		if (typeid(line).name() == "std::string") {
+			std::string ObjectName = line;
+			objectList.push_back(ObjectName)
+		}
+		else if (typeid(line).name() == "float") {
+			float f_Object = line;
+			objectList.push_back(f_object);
+		}
 
 		std::cout << objectList[0] << objectList[1] << std::endl;
 	}
@@ -173,9 +180,7 @@ std::vector<std::string> readCatalogue(const std::string& catalogueFile) {
 
 double generate_random_number(float num1, float num2) {
 	std::random_device rd;
-
 	std::mt19937 gen(rd());
-
 	std::uniform_real_distribution<> dis(num1, num2);
 
 	return dis(gen);
