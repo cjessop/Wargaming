@@ -15,9 +15,7 @@ public:
 	std::string getName() const;
 	const std::vector<double>& getposVel() const;
 
-
+private:
 	std::string name;
 	std::vector<double> posVel;
-private:
-	
 };

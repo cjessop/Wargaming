@@ -1,7 +1,6 @@
 #include <fstream>
 //#include <stdexcep>
 #include <iostream>
-#include <typeinfo>
 #include <string>
 #include <chrono>
 #include <thread>
@@ -10,6 +9,7 @@
 #include <math.h>
 #include <random>
 #include "Utils.h"
+#include "Object.h"
 
 /* Read the total time of the scenario in real seconds - eventually replace with what will 
 provided by Python side of the controller */
@@ -149,38 +149,87 @@ std::vector<float> get_ll(std::string lla_file) {
 	return ll_list;
 }
 
-/* Read objects from the object catalogue text file to populate a vector of objects */
-std::vector<Object> readCatalogue(const std::string& catalogueFile) {
-	std::ifstream InputFile(catalogueFile);
+int lineNum(std::string InputFile) {
+	int number_of_lines = 0;
+	std::string line;
+	std::ifstream myfile(InputFile);
 
-	if (!InputFile.is_open()) {
-		std::cerr << "Error opening the catalogue file" << std::endl;
-		exit;
+	while (std::getline(myfile, line))
+		++number_of_lines;
+	std::cout << "Number of lines in text file: " << number_of_lines;
+	return number_of_lines;
+}
+
+std::size_t count_lines(const std::string& filename) {
+	std::ifstream ifs(filename);
+	if (!ifs) {
+		throw std::runtime_error("Failed open file ");
 	}
 
 	std::string line;
-	std::vector<std::string> objectList;
+	size_t counter = 0;
+	while (std::getline(ifs, line)) counter++;
+	return counter;
+}
 
-	while (std::getline(InputFile, line, ',')) {
-		if (typeid(line).name() == "std::string") {
-			std::string ObjectName = line;
-			objectList.push_back(ObjectName)
-		}
-		else if (typeid(line).name() == "float") {
-			float f_Object = line;
-			objectList.push_back(f_object);
-		}
-
-		std::cout << objectList[0] << objectList[1] << std::endl;
+/* Read objects from the object catalogue text file to populate a vector of objects */
+std::vector<std::string> readCatalogue(const std::string& catalogueFile) {
+	std::ifstream InputFile(catalogueFile);
+	if (!InputFile.is_open()) {
+		std::cerr << "Error opening the catalogue file" << std::endl;
+		exit(1);  // Use exit(1) instead of just exit
 	}
-
+	std::string line;
+	std::vector<std::string> objectList;
+	while (std::getline(InputFile, line)) {
+		objectList.push_back(line);
+	}
 	return objectList;
 }
+
+std::string ObjectNameGet(std::string& object) {
+	std::string name = object;
+	std::string delimiter = ",";
+	std::string token = name.substr(0, name.find(delimiter));
+
+	return token;
+}
+
+std::vector<std::string> ObjectDetailsGet(std::string& object) {
+	std::vector<std::string> s_vec;
+	std::string s = object;
+	std::string delimiter = ",";
+	size_t pos = 0;
+	std::string token;
+
+	while ((pos = s.find(delimiter)) != std::string::npos) {
+		token = s.substr(0, pos);
+		s_vec.push_back(token);
+		s.erase(0, pos + delimiter.length());
+
+	}
+
+	return s_vec;
+}
+
+Object buildObject(std::vector<std::string>& objectList) {
+	std::string name = objectList[0];
+	double val1 = std::stof(objectList[1]);
+	double val2 = std::stof(objectList[2]);
+	double val3 = std::stof(objectList[3]);
+
+	Object object(name, std::vector<double>{ val1, val2, val3 });
+
+	return object;
+}
+
 
 
 double generate_random_number(float num1, float num2) {
 	std::random_device rd;
+
 	std::mt19937 gen(rd());
+
 	std::uniform_real_distribution<> dis(num1, num2);
 
 	return dis(gen);
