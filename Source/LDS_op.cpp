@@ -35,6 +35,28 @@ std::vector<Object> LDS::createCatalogue() {
 	return objectCatalogue;
 }
 
+bool LDS::isSimilar(Object& detectedObject, const std::vector<Object>& objectCat) {
+
+	bool match = false;
+
+	for (int i = 0; i < objectCat.size(); i++) {
+		if (detectedObject.getposVel() == objectCat[i].getposVel() || detectedObject.getName() == objectCat[i].getName()) {
+
+			std::cout << "Detected signature matches known signature from EWR catalogue and is safe" << std::endl;
+			match = true;
+			return match;
+			// Add additional logic here to deal with the specifics and next steps if objects match
+		}
+		if (!match) {
+			std::cout << "Detected signature does not match that in existing database" << std::endl;
+			std::cout << "Assume detected signature is hostile in nature" << std::endl;
+
+			match = false;
+			return match;
+		}
+	}
+}
+
 /* Create a catalogue from an input catalogue file. First create a vector of strings for each of the objects
 within the */
 
@@ -55,6 +77,7 @@ std::vector<Object> LDS::createCatalogueFromFile(const std::string& catalogueFil
 			};
 		}
 	}
+	return catalogue;
 }
 
 // Create function to evaluate the progress of the 
@@ -160,7 +183,7 @@ std::string LDS::LDSDataToString(bool bool_result) {
 std::vector<std::string> LDS::passLDSData(Object& detectedObject) {
 	// Need to pass trajectory data and threat type (or guess of threat type)
 	std::vector<std::string> ldsData;
-	bool detectionResult = handleDetection(detectedObj.getposVel()[0], detectedObj.getposVel()[1], detectedObject);
+	bool detectionResult = this->handleDetection(detectedObj.getposVel()[0], detectedObj.getposVel()[1], detectedObject);
 	std::string lDS_Data_result = this->LDSDataToString(detectionResult);
 
 	ldsData.push_back(lDS_Data_result);
@@ -178,6 +201,6 @@ bool LDS_fail = false; // Hide the current status of LDS operation, never show t
 std::vector<Object> knownObjs;
 
 std::vector<float> latlon = get_ll("lla.txt");
-Object detectedObject1 = Object::Object("Object 1", { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 });
+Object detectedObject1 = Object::Object("Object 1", { 0.0, 0.0, 0.0 });
 
 

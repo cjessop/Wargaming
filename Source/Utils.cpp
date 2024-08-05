@@ -143,7 +143,7 @@ std::vector<float> get_ll(std::string lla_file) {
 		float ll = std::stof(line);
 		ll_list.push_back(ll);
 
-		std::cout << ll_list[0] << ll_list[1] << std::endl;
+		//std::cout << ll_list[0] << ll_list[1] << std::endl;
 	}
 
 	return ll_list;
@@ -221,6 +221,33 @@ Object buildObject(std::vector<std::string>& objectList) {
 	Object object(name, std::vector<double>{ val1, val2, val3 });
 
 	return object;
+}
+
+std::vector<Object> BuildObjectCatalogue(const std::string& CatFile) {
+	std::vector<Object> objectCatalogue;
+	std::vector<std::string> objectList = readCatalogue(CatFile);
+
+	std::vector<std::string> token = ObjectDetailsGet(objectList[1]);
+
+	for (auto& line : objectList) {
+		std::vector<std::string> token = ObjectDetailsGet(line);
+		if (token.size() >= 4) {  // Ensure we have enough data to build an object
+			Object object = buildObject(token);
+			objectCatalogue.push_back(object);
+		}
+		return objectCatalogue;
+	}
+
+	if (!objectCatalogue.empty()) {
+		Object object1 = objectCatalogue[0];
+		std::string objectName = object1.getName();
+		std::cout << "First object name: " << objectName << std::endl;
+	}
+	else {
+		std::cout << "No valid objects found in the catalogue." << std::endl;
+	}
+
+
 }
 
 

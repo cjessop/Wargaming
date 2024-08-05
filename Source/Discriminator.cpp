@@ -3,23 +3,36 @@
 #include <stdlib.h>
 #include <string>
 #include <algorithm>
-#include "Utils.h"
-#include "EWR.h"
+#include "Discriminator.h"
 #include "LDS_op.h"
-#include "Object.h"
+#include "EWR.h"
 
 EWR EWR_op;
 LDS LDS_op;
 
 Object ThreatObject = EWR_op.DetectedObjectFromLDS;
+std::vector<Object> ThreatCatalogue = BuildObjectCatalogue("Catalogue.txt");
+
+
+Discriminator::Discriminator() {
+    EWR_op = new EWR();
+    LDS_op = new LDS();
+};
+
+Discriminator::~Discriminator() {
+    delete EWR_op;
+    delete LDS_op;
+};
+
+
 
 bool Discriminator::ThreatStatusFromEWR() {
     bool b_threat;
 
-    if (EWR_op.isSimilar() == true) {
+    if (EWR_op->isSimilar(ThreatObject, ThreatCatalogue) == true) {
         return b_threat = true;
     }
-    else if (EWR_op.isSimilar() == false) {
+    else if (EWR_op->isSimilar(ThreatObject, ThreatCatalogue) == false) {
         return b_threat = false;
     }
 }
@@ -28,16 +41,16 @@ bool Discriminator::ThreatStatusFromLDS(bool& LDS_fail) {
     bool b_threat;
 
     if (LDS_fail == false) {    
-        if (LDS_op.isSimilar() == true) {
+        if (LDS_op->isSimilar(ThreatObject, ThreatCatalogue) == true) {
             return b_threat = true;
         }
-        else if (LDS_op.isSimilar() == false) {
+        else if (LDS_op->isSimilar(ThreatObject, ThreatCatalogue) == false) {
             return b_threat = false;
         }
     }
 }
 
-std::vector<std::string> Discriminator::runDiscrim(bool b_threat, Object& object) {
+std::string Discriminator::runDiscrim(bool b_threat, Object& object) {
 
     std::cout << "Initialising discriminator" << std::endl;
 
@@ -66,6 +79,8 @@ std::vector<std::string> Discriminator::runDiscrim(bool b_threat, Object& object
                     std::cout << "Unidentified object is of type " << std::to_string(threat) << std::endl;
                     std::cout << "Confidence is: " << std::to_string(rand_proba_discrim) << std::endl;
 
+                    std::string m_name = object.getName();
+
                     return object.getName() + std::to_string(threat);
                 }
                 else if (rand_proba_discrim < 0.4) {
@@ -82,7 +97,7 @@ std::vector<std::string> Discriminator::runDiscrim(bool b_threat, Object& object
                 if (rand_proba_discrim > 0.2) {
                     std::cout << "Unidentified object is of type " << std::to_string(de) << std::endl;
 
-                    return Object.getName() + std::to_string(de);
+                    return object.getName() + std::to_string(de);
                 }
                 else if (rand_proba_discrim <= 0.2) {
                     std::cout << "Discriminator failure" << std::endl;
@@ -103,9 +118,4 @@ std::vector<std::string> Discriminator::runDiscrim(bool b_threat, Object& object
         }
     }
 }
-
-Discriminator::Discriminator() {};
-
-Discriminator::~Discriminator() {};
-
 

@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Wargaming-1\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\chris\OneDrive\Documents\Wargaming\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Controller.cpp" />
+    <ClCompile Include="Source\Discriminator.cpp" />
     <ClCompile Include="Source\EWR.cpp" />
     <ClCompile Include="Source\LDS_op.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -138,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Controller.h" />
+    <ClInclude Include="Headers\Discriminator.h" />
     <ClInclude Include="Headers\EWR.h" />
     <ClInclude Include="Headers\LDS_op.h" />
     <ClInclude Include="Headers\Object.h" />

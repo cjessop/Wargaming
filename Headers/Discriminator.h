@@ -3,26 +3,27 @@
 #include <vector>
 #include <stdio.h>
 #include <random>
-#include <LDS_op.h>
-#include <EWR.h>
 #include "Object.h"
-#include "LDS_op.h"
-#include "EWR.h"
 #include "Utils.h"
 
+class LDS;
+class EWR;
 
 class Discriminator
 {
+	
 public:
-	Object ThreatObject;
-	EWR EWR_op;
-	LDS LDS_op;
+	Discriminator(); //Default constructor
+	~Discriminator(); //Defaul destructor
+	
 
 	bool ThreatStatusFromEWR();
 	bool ThreatStatusFromLDS(bool& LDS_fail);
 
-	std::vector<std::string> runDiscrim(bool b_threat, Object& object);
+	std::string runDiscrim(bool b_threat, Object& object);
 
 private:
-
+	Object ThreatObject;
+	EWR* EWR_op;
+	LDS* LDS_op;
 };

@@ -6,7 +6,6 @@
 #include "Utils.h"
 #include <random>
 #include "Object.h"
-#include "Discriminator.h"
 
 class LDS
 	/* This is the class that represents all of the methods and attributes that the LDS operator has access to and
@@ -23,6 +22,7 @@ public:
 	void setTime(float t);
 	float getTime();
 	void verifyTime();
+	bool isSimilar(Object& detectedObject, const std::vector<Object>& objectCat);
 	std::vector<Object> createCatalogue();
 	void evaluate_progress(float current_time);
 	bool fail_noFail();

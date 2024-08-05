@@ -9,7 +9,7 @@
 #include "Object.h"
 #include "EWR.h"
 
-LDS LDS_op;
+LDS LDS_op_EWR;
 
 Detection::Detection() {
 };
@@ -51,8 +51,8 @@ EWR::~EWR()
 
  }
 
-Object DetectedObjectFromLDS = LDS_op.detectedObj;
-std::vector<std::string> lds_data = LDS_op.passLDSData(DetectedObjectFromLDS);
+Object DetectedObjectFromLDS = LDS_op_EWR.detectedObj;
+std::vector<std::string> lds_data = LDS_op_EWR.passLDSData(DetectedObjectFromLDS);
 
 void EWR::addObject(const std::string& name, const std::vector<double>& posVel) {
 	knownObjects.emplace_back(name, posVel);
@@ -81,7 +81,7 @@ bool EWR::matchObj(Object& detectedObject, const std::vector<Object>& objectCat)
 
 std::string EWR::processLDSdata(std::vector<std::string>& ldsData) {
 	// Call function from LDS_op class to check for fail case of the system
-	bool ldsfail_nofail = LDS_op.fail_noFail();
+	bool ldsfail_nofail = LDS_op_EWR.fail_noFail();
 	std::string s_fail = "fail";
 	std::string s_true = "true";
 
@@ -143,11 +143,6 @@ bool EWR::isSimilar(Object& detectedObject, const std::vector<Object>& objectCat
 			return match;
 		}
 	}
-}
-
-bool EWR::matchObj(Object& detectedObject, const std::vector<Object>& objectCat)
-{
-	return false;
 }
 
 /*Create a function to perform an object match test, using the isSimilar function */

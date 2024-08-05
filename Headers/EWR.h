@@ -5,7 +5,6 @@
 #include <string>
 #include <algorithm>
 #include "Object.h"
-#include "Discriminator.h"
 
 class Detection
 {
