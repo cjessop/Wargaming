@@ -28,6 +28,8 @@ void LDS::verifyTime() {
 	float currentTime = this->getTime();
 }
 
+// This is also deprecated and the catalogue should be created in either this file or
+// in the controller object 
 std::vector<Object> LDS::createCatalogue() {
 	std::vector<Object> objectCatalogue = this->generateCatalogueLDS();
 	return objectCatalogue;
@@ -35,6 +37,8 @@ std::vector<Object> LDS::createCatalogue() {
 
 /* Create a catalogue from an input catalogue file. First create a vector of strings for each of the objects
 within the */
+
+// This is now deprecated in favour of createCatalogueFromFile from Utils.h
 std::vector<Object> LDS::createCatalogueFromFile(const std::string& catalogueFile) {
 	// read in the catalogue file
 	std::vector<std::string> s_object_vector = readCatalogue(catalogueFile); 
